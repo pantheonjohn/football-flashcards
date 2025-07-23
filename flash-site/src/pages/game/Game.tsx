@@ -20,6 +20,8 @@ type Play = {
   away_timeouts_remaining: number;
   score_differential: number;
   yardline_100: number;
+  away_wp: number;
+  home_wp: number;
   wpa: number;
 };
 
@@ -111,18 +113,26 @@ export const Game = ({ filename }: { filename: string }) => {
             className={styles.horizontalContainer}
             style={{ marginTop: "-16px", marginBottom: "-16px" }}
           >
-            <h3>{`${"⏸️".repeat(
-              currentPlay.away_timeouts_remaining
-            )}${"⚪".repeat(3 - currentPlay.away_timeouts_remaining)} ${
-              currentPlay.away_team
-            }${
-              currentPlay.posteam === currentPlay.away_team ? " 🏈" : ""
-            }`}</h3>
-            <h3>{`${
-              currentPlay.posteam === currentPlay.home_team ? "🏈 " : ""
-            }${currentPlay.home_team} ${"⏸️".repeat(
-              currentPlay.home_timeouts_remaining
-            )}${"⚪".repeat(3 - currentPlay.home_timeouts_remaining)}`}</h3>
+            <h3>
+              {`${"⏸️".repeat(
+                currentPlay.away_timeouts_remaining
+              )}${"⚪".repeat(3 - currentPlay.away_timeouts_remaining)} ${
+                currentPlay.away_team
+              } `}
+              <span style={{ fontSize: "14px" }}>
+                {(currentPlay.away_wp * 100).toFixed(2) + "%"}
+              </span>
+              {`${currentPlay.posteam === currentPlay.away_team ? " 🏈" : ""}`}
+            </h3>
+            <h3>
+              {`${currentPlay.posteam === currentPlay.home_team ? "🏈 " : ""}`}
+              <span style={{ fontSize: "14px" }}>
+                {(currentPlay.home_wp * 100).toFixed(2) + "%"}
+              </span>
+              {` ${currentPlay.home_team} ${"⏸️".repeat(
+                currentPlay.home_timeouts_remaining
+              )}${"⚪".repeat(3 - currentPlay.home_timeouts_remaining)}`}
+            </h3>
           </div>
           {typeof currentPlay.yardline_100 === "number" &&
             typeof currentPlay.down === "number" && (
