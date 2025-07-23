@@ -4,6 +4,7 @@ import styles from "./Game.module.css";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { Message } from "primereact/message";
+import footballFieldImage from "./american-football-field-illustration-vector.jpg";
 
 type Play = {
   desc: string;
@@ -123,9 +124,73 @@ export const Game = ({ filename }: { filename: string }) => {
               currentPlay.home_timeouts_remaining
             )}${"⚪".repeat(3 - currentPlay.home_timeouts_remaining)}`}</h3>
           </div>
-          {typeof currentPlay.yardline_100 === "number" && (
-            <div>{`${currentPlay.yardline_100} yards from the endzone`}</div>
-          )}
+          {typeof currentPlay.yardline_100 === "number" &&
+            typeof currentPlay.down === "number" && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  alignItems: "center",
+                }}
+              >
+                <div>{`${currentPlay.yardline_100} yards from the endzone`}</div>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <img
+                    src={footballFieldImage}
+                    style={{
+                      width: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+
+                  {/* Red line marking the yard position */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      right:
+                        currentPlay.away_team === currentPlay.posteam
+                          ? `${currentPlay.yardline_100}%`
+                          : "auto",
+                      left:
+                        currentPlay.home_team === currentPlay.posteam
+                          ? `${currentPlay.yardline_100}%`
+                          : "auto",
+                      top: 0,
+                      bottom: 0,
+                      width: "3px",
+                      backgroundColor: "red",
+                      zIndex: 1,
+                    }}
+                  />
+
+                  {/* Arrow pointing towards the endzone */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      right:
+                        currentPlay.away_team === currentPlay.posteam
+                          ? `${Math.min(currentPlay.yardline_100 - 6, 95)}%`
+                          : "auto",
+                      left:
+                        currentPlay.home_team === currentPlay.posteam
+                          ? `${Math.min(currentPlay.yardline_100 - 6, 95)}%`
+                          : "auto",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: "24px",
+                      color: "red",
+                      fontWeight: "bold",
+                      zIndex: 1,
+                      textShadow: "1px 1px 2px rgba(0,0,0,0.7)", // Better visibility
+                    }}
+                  >
+                    {currentPlay.away_team === currentPlay.posteam ? "→" : "←"}
+                  </div>
+                </div>
+              </div>
+            )}
           <div style={{ textAlign: "center" }}>{currentPlay.desc}</div>
           <div
             className={styles.horizontalContainer}
