@@ -1,0 +1,28 @@
+.pantheon-small-table .p-datatable-thead > tr > th {
+  padding: 0.25rem 0.25rem;
+}
+.pantheon-small-table .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.25rem 0.25rem;
+}
+.pantheon-small-table
+  .p-datatable
+  .p-datatable-tbody
+  > tr
+  > td
+  .p-row-editor-init {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.pantheon-small-table .p-inputtext {
+  padding: 0.1rem;
+  font-size: 12pt;
+}
+
+.pantheon-small-table .p-inputnumber-input {
+  width: 100%;
+}
+
+.pantheon-small-table .p-dropdown-trigger {
+  width: 1.5rem;
+}

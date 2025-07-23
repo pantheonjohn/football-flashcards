@@ -1,0 +1,13 @@
+.gameContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  height: 400px;
+}
+
+.horizontalContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
