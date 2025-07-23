@@ -61,7 +61,7 @@ export const Game = ({ filename }: { filename: string }) => {
     <>
       {currentPlay ? (
         <div className={styles.gameContainer}>
-          <Toast ref={toast} />
+          <Toast ref={toast} position="bottom-center" />
           <div
             className={styles.horizontalContainer}
             style={{ height: "43px" }}
@@ -97,6 +97,7 @@ export const Game = ({ filename }: { filename: string }) => {
               <div
                 style={{
                   fontWeight: "bold",
+                  fontSize: "14px",
                   width: "120px",
                   textAlign: "right",
                 }}
@@ -215,6 +216,7 @@ export const Game = ({ filename }: { filename: string }) => {
                   currentPlay.posteam === currentPlay.away_team &&
                   currentPlay.wpa > 0
                 ) {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "success",
                     summary: "GOOD Bet",
@@ -226,6 +228,7 @@ export const Game = ({ filename }: { filename: string }) => {
                   currentPlay.posteam === currentPlay.home_team &&
                   currentPlay.wpa < 0
                 ) {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "success",
                     summary: "GOOD Bet",
@@ -233,6 +236,7 @@ export const Game = ({ filename }: { filename: string }) => {
                     life: 5000,
                   });
                 } else {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "error",
                     summary: "BAD Bet",
@@ -256,6 +260,7 @@ export const Game = ({ filename }: { filename: string }) => {
               onClick={() => {
                 setCurrentPlayIndex(currentPlayIndex + 1);
                 if (Math.abs(currentPlay.wpa) < WPA_THRESHOLD) {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "success",
                     summary: "GOOD No Bet",
@@ -263,6 +268,7 @@ export const Game = ({ filename }: { filename: string }) => {
                     life: 5000,
                   });
                 } else {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "error",
                     summary: "BAD No Bet",
@@ -282,6 +288,7 @@ export const Game = ({ filename }: { filename: string }) => {
                   currentPlay.posteam === currentPlay.home_team &&
                   currentPlay.wpa > 0
                 ) {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "success",
                     summary: "GOOD Bet",
@@ -293,6 +300,7 @@ export const Game = ({ filename }: { filename: string }) => {
                   currentPlay.posteam === currentPlay.away_team &&
                   currentPlay.wpa < 0
                 ) {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "success",
                     summary: "GOOD Bet",
@@ -300,6 +308,7 @@ export const Game = ({ filename }: { filename: string }) => {
                     life: 5000,
                   });
                 } else {
+                  toast.current?.clear();
                   toast.current?.show({
                     severity: "error",
                     summary: "BAD Bet",
