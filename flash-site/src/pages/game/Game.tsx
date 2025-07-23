@@ -6,6 +6,7 @@ import { Toast } from "primereact/toast";
 import { Message } from "primereact/message";
 import footballFieldImage from "./american-football-field-illustration-vector.jpg";
 
+// Matches the format of the csvs
 type Play = {
   desc: string;
   qtr: string;
