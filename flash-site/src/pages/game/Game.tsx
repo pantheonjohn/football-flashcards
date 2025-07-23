@@ -3,19 +3,20 @@ import Papa from "papaparse";
 import styles from "./Game.module.css";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import { Message } from "primereact/message";
 
 type Play = {
   desc: string;
   qtr: string;
   time: string;
-  down: string;
+  down: number;
   ydstogo: string;
   posteam: string;
   defteam: string;
   home_team: string;
   away_team: string;
-  home_timeouts_remaining: string;
-  away_timeouts_remaining: string;
+  home_timeouts_remaining: number;
+  away_timeouts_remaining: number;
   score_differential: number;
   yardline_100: number;
   wpa: number;
@@ -58,27 +59,74 @@ export const Game = ({ filename }: { filename: string }) => {
       {currentPlay ? (
         <div className={styles.gameContainer}>
           <Toast ref={toast} />
-          <h3>{`${currentPlay.posteam === currentPlay.away_team ? "🏈 " : ""}${
-            currentPlay.away_team
-          } @ ${currentPlay.home_team}${
-            currentPlay.posteam === currentPlay.home_team ? " 🏈" : ""
-          }`}</h3>
           <div
-            style={{ marginTop: "-28px" }}
-          >{`${currentPlay.away_timeouts_remaining} timeouts | ${currentPlay.home_timeouts_remaining} timeouts`}</div>
-          <div>{`Quarter: ${currentPlay.qtr} Time: ${currentPlay.time}`}</div>
-          <div>{`Down: ${currentPlay.down} and ${currentPlay.ydstogo}`}</div>
-          <div>{`${currentPlay.yardline_100} yards from the endzone`}</div>
-          <div style={{ fontWeight: "bold" }}>{`${
-            currentPlay.score_differential === 0
-              ? "Tied"
-              : `${currentPlay.posteam} ${
-                  currentPlay.score_differential > 0 ? "up by" : "down by"
-                } ${Math.abs(currentPlay.score_differential)}`
-          } `}</div>
-          <div style={{ maxWidth: "400px", textAlign: "center" }}>
-            {currentPlay.desc}
+            className={styles.horizontalContainer}
+            style={{ height: "43px" }}
+          >
+            <div
+              style={{ width: "120px" }}
+            >{`⏰ Q${currentPlay.qtr} ${currentPlay.time}`}</div>
+            {typeof currentPlay.down === "number" && (
+              <Message
+                style={{ width: "120px" }}
+                icon
+                text={`${currentPlay.down}${
+                  currentPlay.down === 1
+                    ? "st"
+                    : currentPlay.down === 2
+                    ? "nd"
+                    : currentPlay.down === 3
+                    ? "rd"
+                    : "th"
+                } and ${currentPlay.ydstogo}`}
+                severity={
+                  currentPlay.down === 1
+                    ? "success"
+                    : currentPlay.down === 2
+                    ? "info"
+                    : currentPlay.down === 3
+                    ? "warn"
+                    : "error"
+                }
+              />
+            )}
+            {typeof currentPlay.score_differential === "number" && (
+              <div
+                style={{
+                  fontWeight: "bold",
+                  width: "120px",
+                  textAlign: "right",
+                }}
+              >{`${
+                currentPlay.score_differential === 0
+                  ? "Tied"
+                  : `${currentPlay.posteam} ${
+                      currentPlay.score_differential > 0 ? "up by" : "down by"
+                    } ${Math.abs(currentPlay.score_differential)}`
+              }`}</div>
+            )}
           </div>
+          <div
+            className={styles.horizontalContainer}
+            style={{ marginTop: "-16px", marginBottom: "-16px" }}
+          >
+            <h3>{`${"⏸️".repeat(
+              currentPlay.away_timeouts_remaining
+            )}${"⚪".repeat(3 - currentPlay.away_timeouts_remaining)} ${
+              currentPlay.away_team
+            }${
+              currentPlay.posteam === currentPlay.away_team ? " 🏈" : ""
+            }`}</h3>
+            <h3>{`${
+              currentPlay.posteam === currentPlay.home_team ? "🏈 " : ""
+            }${currentPlay.home_team} ${"⏸️".repeat(
+              currentPlay.home_timeouts_remaining
+            )}${"⚪".repeat(3 - currentPlay.home_timeouts_remaining)}`}</h3>
+          </div>
+          {typeof currentPlay.yardline_100 === "number" && (
+            <div>{`${currentPlay.yardline_100} yards from the endzone`}</div>
+          )}
+          <div style={{ textAlign: "center" }}>{currentPlay.desc}</div>
           <div
             className={styles.horizontalContainer}
             style={{ marginTop: "auto" }}
