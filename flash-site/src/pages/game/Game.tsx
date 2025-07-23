@@ -197,37 +197,6 @@ export const Game = ({ filename }: { filename: string }) => {
             style={{ marginTop: "auto" }}
           >
             <Button
-              label="Back"
-              text
-              severity="secondary"
-              disabled={currentPlayIndex === 0}
-              onClick={() => {
-                setCurrentPlayIndex(currentPlayIndex - 1);
-              }}
-            />
-            <Button
-              label="No click"
-              severity="secondary"
-              onClick={() => {
-                setCurrentPlayIndex(currentPlayIndex + 1);
-                if (Math.abs(currentPlay.wpa) < WPA_THRESHOLD) {
-                  toast.current?.show({
-                    severity: "success",
-                    summary: "GOOD No Bet",
-                    detail: `WPA was ${(currentPlay.wpa * 100).toFixed(2)}%`,
-                    life: 5000,
-                  });
-                } else {
-                  toast.current?.show({
-                    severity: "error",
-                    summary: "BAD No Bet",
-                    detail: `WPA was ${(currentPlay.wpa * 100).toFixed(2)}%`,
-                    life: 5000,
-                  });
-                }
-              }}
-            />
-            <Button
               label={currentPlay.away_team}
               onClick={() => {
                 setCurrentPlayIndex(currentPlayIndex + 1);
@@ -257,6 +226,36 @@ export const Game = ({ filename }: { filename: string }) => {
                   toast.current?.show({
                     severity: "error",
                     summary: "BAD Bet",
+                    detail: `WPA was ${(currentPlay.wpa * 100).toFixed(2)}%`,
+                    life: 5000,
+                  });
+                }
+              }}
+            />
+            <Button
+              label="Back"
+              severity="secondary"
+              disabled={currentPlayIndex === 0}
+              onClick={() => {
+                setCurrentPlayIndex(currentPlayIndex - 1);
+              }}
+            />
+            <Button
+              label="No click"
+              severity="secondary"
+              onClick={() => {
+                setCurrentPlayIndex(currentPlayIndex + 1);
+                if (Math.abs(currentPlay.wpa) < WPA_THRESHOLD) {
+                  toast.current?.show({
+                    severity: "success",
+                    summary: "GOOD No Bet",
+                    detail: `WPA was ${(currentPlay.wpa * 100).toFixed(2)}%`,
+                    life: 5000,
+                  });
+                } else {
+                  toast.current?.show({
+                    severity: "error",
+                    summary: "BAD No Bet",
                     detail: `WPA was ${(currentPlay.wpa * 100).toFixed(2)}%`,
                     life: 5000,
                   });
