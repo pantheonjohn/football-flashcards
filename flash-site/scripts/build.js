@@ -11,7 +11,7 @@ if (global.gc) {
   }, 5000); // More frequent GC
 }
 
-// Set memory limits if not already set
+// Set memory limits if not already set - KEEP YOUR ORIGINAL 400
 process.env.NODE_OPTIONS =
   process.env.NODE_OPTIONS || "--max-old-space-size=400";
 
@@ -46,46 +46,17 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 // Generate configuration
 const config = configFactory("production");
 
-// AGGRESSIVE MEMORY OPTIMIZATION: Heavily restrict webpack config
-config.optimization = {
-  ...config.optimization,
-  minimize: true,
-  // Disable source maps to save memory (remove if you need them)
-  splitChunks: {
-    chunks: "all",
-    maxAsyncRequests: 3, // Very low
-    maxInitialRequests: 2, // Very low
-    cacheGroups: {
-      vendor: {
-        test: /[\\/]node_modules[\\/]/,
-        name: "vendors",
-        chunks: "all",
-        enforce: true,
-      },
-    },
-  },
-  // Disable module concatenation if it's memory intensive
-  concatenateModules: false,
-};
+// EMERGENCY: Disable minification to save memory (makes bundle larger but uses less RAM)
+config.optimization.minimize = false;
 
-// MEMORY OPTIMIZATION: Minimal webpack stats
-config.stats = false; // Completely disable stats logging
-config.performance = false; // Disable performance hints entirely
-
-// Disable source maps if not needed (major memory saver)
+// ONLY CHANGE: Disable source maps (biggest single memory saver)
 config.devtool = false;
 
-// MEMORY OPTIMIZATION: Reduce webpack parallelism
-if (config.optimization.minimizer) {
-  config.optimization.minimizer.forEach((minimizer) => {
-    if (minimizer.constructor.name === "TerserPlugin") {
-      minimizer.options = {
-        ...minimizer.options,
-        parallel: 1, // Single-threaded to save memory
-      };
-    }
-  });
-}
+// ONLY CHANGE: Minimal stats
+config.stats = false;
+config.performance = false;
+
+// Keep everything else as default - don't mess with Terser settings
 
 // Skip browser checking in memory-constrained environments
 const shouldSkipBrowserCheck = process.env.SKIP_BROWSER_CHECK === "true";
