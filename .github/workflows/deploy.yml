@@ -32,9 +32,34 @@ jobs:
         run: npm install
         working-directory: ./flash-site
 
-      - name: Build
-        run: npm run build:prod
+      - name: List package.json scripts (for debugging)
+        run: cat package.json | grep -A 10 "scripts"
         working-directory: ./flash-site
+
+      - name: Build
+        run: |
+          echo "Starting build process..."
+          npm run build:prod
+          echo "Build completed. Exit code: $?"
+        working-directory: ./flash-site
+
+      - name: List build contents (for debugging)
+        run: |
+          echo "Contents of flash-site directory:"
+          ls -la ./flash-site/
+          echo "Checking for build directory:"
+          if [ -d "./flash-site/build" ]; then
+            echo "Build directory exists. Contents:"
+            ls -la ./flash-site/build/
+          else
+            echo "Build directory does not exist!"
+          fi
+
+      - name: Add 404.html for client-side routing
+        run: cp ./flash-site/build/index.html ./flash-site/build/404.html
+
+      - name: Add .nojekyll to disable Jekyll
+        run: touch ./flash-site/build/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
