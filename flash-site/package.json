@@ -65,7 +65,7 @@
     "build:dev": "env-cmd -f .env.dev node scripts/build.js",
     "build:canary": "env-cmd -f .env.canary node scripts/build.js",
     "build:xenia": "env-cmd -f .env.xenia node scripts/build.js",
-    "build:prod": "NODE_OPTIONS='--max-old-space-size=256' env-cmd -f .env.prod node scripts/build.js",
+    "build:prod": "NODE_OPTIONS='--max-old-space-size=400' env-cmd -f .env.prod node scripts/build.js",
     "test": "jest",
     "preflight": "eslint . && tsc",
     "tsc": "tsc"
