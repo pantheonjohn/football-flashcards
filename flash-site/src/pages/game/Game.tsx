@@ -39,7 +39,7 @@ export const Game = ({ filename }: { filename: string }) => {
 
   useEffect(() => {
     const loadCsvFile = async (filename: string) => {
-      const response = await fetch(`football-flashcards/games/${filename}`);
+      const response = await fetch(`/football-flashcards/games/${filename}`);
       const csvText = await response.text();
 
       // Parse CSV with headers as keys
