@@ -28,6 +28,17 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Check CSV files in repository
+        run: |
+          echo "Looking for CSV files in the repository:"
+          find . -name "*.csv" -type f
+          echo "Contents of public directory:"
+          ls -la ./flash-site/public/ || echo "public directory not found"
+          if [ -d "./flash-site/public/games" ]; then
+            echo "Games directory exists in public:"
+            ls -la ./flash-site/public/games/
+          fi
+
       - name: Install dependencies
         run: npm install
         working-directory: ./flash-site
@@ -43,16 +54,17 @@ jobs:
           echo "Build completed. Exit code: $?"
         working-directory: ./flash-site
 
-      - name: List build contents (for debugging)
+      - name: Verify CSV files after build
         run: |
-          echo "Contents of flash-site directory:"
-          ls -la ./flash-site/
-          echo "Checking for build directory:"
-          if [ -d "./flash-site/build" ]; then
-            echo "Build directory exists. Contents:"
-            ls -la ./flash-site/build/
+          echo "Looking for CSV files in build directory:"
+          find ./flash-site/build -name "*.csv" -type f
+          echo "Contents of build directory:"
+          ls -la ./flash-site/build/
+          if [ -d "./flash-site/build/games" ]; then
+            echo "Games directory exists in build:"
+            ls -la ./flash-site/build/games/
           else
-            echo "Build directory does not exist!"
+            echo "Games directory NOT found in build!"
           fi
 
       - name: Add 404.html for client-side routing
@@ -60,6 +72,13 @@ jobs:
 
       - name: Add .nojekyll to disable Jekyll
         run: touch ./flash-site/build/.nojekyll
+
+      - name: Final verification before upload
+        run: |
+          echo "Final check - CSV files before artifact upload:"
+          find ./flash-site/build -name "*.csv" -type f
+          echo "Total files in build directory:"
+          find ./flash-site/build -type f | wc -l
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
