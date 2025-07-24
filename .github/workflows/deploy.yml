@@ -51,6 +51,10 @@ jobs:
           if [ -d "./flash-site/build" ]; then
             echo "Build directory exists. Contents:"
             ls -la ./flash-site/build/
+            echo "Looking for CSV files:"
+            find ./flash-site/build -name "*.csv" -type f
+            echo "Full directory tree:"
+            find ./flash-site/build -type f | head -20
           else
             echo "Build directory does not exist!"
           fi
